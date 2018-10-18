@@ -33,7 +33,7 @@ public class MyDate
      * A method to check if it is a leap year
      */
     private boolean isLeapYear() {
-        if(this.year % 4 == 0) {
+        if(this.year % 4 == 0 && this.year % 100 != 0 || this.year % 100 == 0 && this.year % 400 == 0) {
             return true;
         }
         return false;

@@ -14,7 +14,13 @@ public class Main
         MyDate leapDate = new MyDate(2,29,2020);
         System.out.println(leapDate);
         
-        MyDate invalidDate = new MyDate(2,31,2018);        
-        MyDate invalidDate2 = new MyDate(2,29,2018);
+        MyDate leapDate2 = new MyDate(2,29,1904);
+        System.out.println(leapDate2);       
+        
+        MyDate leapDate3 = new MyDate(2,29,2000);
+        System.out.println(leapDate3);
+        
+        MyDate invalidDate = new MyDate(2,29,1900);
+        System.out.println(invalidDate);       
     }
 }
