@@ -9,8 +9,7 @@ public class MyDate
 {
     private int day;
     private int month;
-    private int year;    
-    private int daysInMonth[] = new int[]{0,31,28,31,30,31,30,31,31,30,31,30,31}; 
+    private int year;        
     
     public MyDate() {
         this(1,1,2000);   
@@ -19,7 +18,9 @@ public class MyDate
     public MyDate(int month, int day, int year) {
         setMonth(month);        
         setYear(year);
-        setDay(day);
+        //we need to know what month AND what year it is before we set the day
+        //how can we guarantee that the day will not be set before the month and year??? 
+        setDay(day); 
     }
     
     /**
@@ -32,11 +33,41 @@ public class MyDate
     /**
      * A method to check if it is a leap year
      */
-    private boolean isLeapYear() {
+    public boolean isLeapYear() {
         if(this.year % 4 == 0 && this.year % 100 != 0 || this.year % 100 == 0 && this.year % 400 == 0) {
             return true;
         }
         return false;
+    }
+    
+    public int getDaysInMonth() {
+        int daysInMonths[] = new int[]{0,31,28,31,30,31,30,31,31,30,31,30,31}; 
+        int daysInMonth = daysInMonths[this.month];
+        if(this.isLeapYear() && this.month == 2) {
+            ++daysInMonth;
+        }
+        return daysInMonth;
+    }
+    
+    public int getDaysInYear() {
+        int daysInYear = 365;
+        if(this.isLeapYear()) {
+            ++daysInYear;   
+        }
+        return daysInYear;
+    }
+    
+    public void getNextDay() {
+        if(this.day + 1 > this.getDaysInMonth() && this.month + 1 > 12) {
+            this.setMonth(1);
+            this.setDay(1);
+            this.setYear(++this.year);
+        } else if (this.day + 1 > this.getDaysInMonth()) {
+            this.setMonth(++this.month);
+            this.setDay(1);
+        } else {
+            this.setDay(++this.day);
+        }
     }
     
     public void setMonth(int month) {
@@ -46,12 +77,8 @@ public class MyDate
         this.month = month;
     }
     
-    public void setDay(int day) {
-        int daysThisMonth = daysInMonth[this.month];
-        if(isLeapYear() && this.month == 2) {
-            ++daysThisMonth;
-        }
-        if(day < 0 || (day > daysThisMonth)) {
+    public void setDay(int day) {              
+        if(day < 0 || day > this.getDaysInMonth()) {
             throw new IllegalArgumentException("Invalid day. Out of range.");    
         }
         this.day = day;
