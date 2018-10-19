@@ -34,39 +34,44 @@ public class MyDate
      * A method to check if it is a leap year
      */
     public boolean isLeapYear() {
-        if(this.year % 4 == 0 && this.year % 100 != 0 || this.year % 100 == 0 && this.year % 400 == 0) {
-            return true;
-        }
-        return false;
+        return(this.year % 4 == 0 && this.year % 100 != 0 || (this.year % 100 == 0 && this.year % 400 == 0));
     }
     
     public int getDaysInMonth() {
-        int daysInMonths[] = new int[]{0,31,28,31,30,31,30,31,31,30,31,30,31}; 
-        int daysInMonth = daysInMonths[this.month];
-        if(this.isLeapYear() && this.month == 2) {
-            ++daysInMonth;
+        /*
+         * int daysInMonths[] = new int[]{0,31,28,31,30,31,30,31,31,30,31,30,31}; 
+         * int daysInMonth = daysInMonths[month];
+         */        
+        int daysInMonth = 31;  
+        if(month == 2) {
+            if(isLeapYear() ) {
+                daysInMonth = 29;
+            } else {
+                daysInMonth = 28;
+            }
+        } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+            daysInMonth = 30;
         }
         return daysInMonth;
     }
     
     public int getDaysInYear() {
         int daysInYear = 365;
-        if(this.isLeapYear()) {
-            ++daysInYear;   
+        if(isLeapYear()) {
+            daysInYear = 366;   
         }
         return daysInYear;
     }
     
     public void getNextDay() {
-        if(this.day + 1 > this.getDaysInMonth() && this.month + 1 > 12) {
-            this.setMonth(1);
-            this.setDay(1);
-            this.setYear(++this.year);
-        } else if (this.day + 1 > this.getDaysInMonth()) {
-            this.setMonth(++this.month);
-            this.setDay(1);
-        } else {
-            this.setDay(++this.day);
+        ++day;
+        if(day > getDaysInMonth() && month + 1 > 12) {
+            month = 1;
+            day = 1;
+            ++year;
+        } else if (day > getDaysInMonth()) {
+            ++month;
+            day = 1;
         }
     }
     
